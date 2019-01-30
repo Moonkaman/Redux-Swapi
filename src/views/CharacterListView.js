@@ -1,8 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
+import Loader from 'react-loader-spinner';
 
 import { CharacterList } from "../components";
 import { fetchChars } from '../actions';
+
+import './Views.css';
 
 class CharacterListView extends React.Component {
   constructor() {
@@ -19,7 +22,7 @@ class CharacterListView extends React.Component {
     }
     return (
       <div className="CharactersList_wrapper">
-        <CharacterList characters={this.props.characters} />
+        {this.props.fetching ? <Loader type='TailSpin' color='#3498db' height='100' width='100' /> : <CharacterList characters={this.props.characters} />}
       </div>
     );
   }
@@ -27,7 +30,8 @@ class CharacterListView extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    characters: state.charsReducer.characters
+    characters: state.charsReducer.characters,
+    fetching: state.charsReducer.fetching
   }
 }
 
