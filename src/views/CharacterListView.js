@@ -19,7 +19,7 @@ class CharacterListView extends React.Component {
     }
     return (
       <div className="CharactersList_wrapper">
-        {this.props.fetching ? <Loader type='TailSpin' color='#3498db' height='100' width='100' /> : <CharacterList characters={this.props.characters} />}
+      {this.props.fetching ? <Loader type='TailSpin' color='#3498db' height='100' width='100' /> : (this.props.error === '' ? <CharacterList characters={this.props.characters} /> : <h2>{this.props.error}</h2>)}
       </div>
     );
   }
@@ -28,7 +28,8 @@ class CharacterListView extends React.Component {
 const mapStateToProps = state => {
   return {
     characters: state.charsReducer.characters,
-    fetching: state.charsReducer.fetching
+    fetching: state.charsReducer.fetching,
+    error: state.charsReducer.error
   }
 }
 

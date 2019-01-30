@@ -25,6 +25,7 @@ export const charsReducer = (state = initialState, action) => {
       return {
         ...state,
         fetching: false,
+        error: 'Error ' + action.payload.response.status
       }
 
     default:
