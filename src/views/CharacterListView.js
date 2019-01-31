@@ -1,16 +1,16 @@
 import React from "react";
 import { connect } from "react-redux";
+import Loader from 'react-loader-spinner';
 
 import { CharacterList } from "../components";
-// import actions
+import { fetchChars } from '../actions';
+
+import './Views.css';
 
 class CharacterListView extends React.Component {
-  constructor() {
-    super();
-  }
 
   componentDidMount() {
-    // call our action
+    this.props.fetchChars();
   }
 
   render() {
@@ -19,17 +19,25 @@ class CharacterListView extends React.Component {
     }
     return (
       <div className="CharactersList_wrapper">
-        <CharacterList characters={this.props.characters} />
+      {this.props.fetching ? <Loader type='TailSpin' color='#3498db' height='100' width='100' /> : (this.props.error === '' ? <CharacterList characters={this.props.characters} /> : <h2>{this.props.error}</h2>)}
       </div>
     );
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    characters: state.charsReducer.characters,
+    fetching: state.charsReducer.fetching,
+    error: state.charsReducer.error
   }
 }
 
 // our mapStateToProps needs to have two properties inherited from state
 // the characters and the fetching boolean
 export default connect(
-  null /* mapStateToProps replaces null here */,
+  mapStateToProps,
   {
-    /* action creators go here */
+    fetchChars
   }
 )(CharacterListView);
